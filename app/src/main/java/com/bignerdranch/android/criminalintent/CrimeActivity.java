@@ -9,6 +9,7 @@ public class CrimeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Called when the activity is first created
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
