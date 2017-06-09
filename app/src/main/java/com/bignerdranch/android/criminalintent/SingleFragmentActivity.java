@@ -14,11 +14,18 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // Called when the activity is first created
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+
+        // The FragmentTransaction class uses a fluent interface - methods that
+        // configure FragmentTransaction return a Fragment Transaction instead
+        // of void, which allows you to chain them together. The code says
+        // "Create a new fragment transaction, include on add operation in it,
+        // and then commit it."
 
         if(fragment == null) {
             fragment = createFragment();
