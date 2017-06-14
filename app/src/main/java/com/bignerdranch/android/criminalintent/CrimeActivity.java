@@ -16,7 +16,7 @@ public class CrimeActivity extends SingleFragmentActivity {
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {  // UUID is a serializable object
         Intent intent = new Intent(packageContext, CrimeActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_CRIME_ID, crimeId);   // Pass in the key and the value the key maps to
         return intent;
     }
 
