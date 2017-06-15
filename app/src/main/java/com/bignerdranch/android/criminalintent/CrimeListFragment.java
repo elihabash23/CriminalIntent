@@ -105,12 +105,22 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {    // Triggers a call to updateUI() to reload the list if any changes to
+        super.onResume();       // the details of a crime have been made
+        updateUI();
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if(mAdapter == null) {
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 }
