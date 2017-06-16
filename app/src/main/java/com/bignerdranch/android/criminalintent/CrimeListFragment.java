@@ -21,7 +21,7 @@ import java.util.List;
  * Created by eliballislife11 on 6/7/17.
  */
 
-public class CrimeListFragment extends Fragment {
+public class CrimeListFragment extends Fragment {       // a controller of my MVC
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
@@ -119,7 +119,7 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();    // Try implementing with notifyItemChanged(int) for better efficiency
         }
     }
 

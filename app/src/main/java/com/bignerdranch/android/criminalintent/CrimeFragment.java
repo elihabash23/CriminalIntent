@@ -18,7 +18,7 @@ import java.util.UUID;
  * Created by eliballislife11 on 6/5/17.
  */
 
-public class CrimeFragment extends Fragment {
+public class CrimeFragment extends Fragment {       // a controller of my MVC
 
     private static final String ARG_CRIME_ID = "crime_id";
 

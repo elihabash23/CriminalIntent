@@ -10,7 +10,7 @@ import java.util.UUID;
  * Created by eliballislife11 on 6/7/17.
  */
 
-public class CrimeLab {
+public class CrimeLab {     // The model of my MVC
     private static CrimeLab sCrimeLab;  // s prefix for static methods
 
     private List<Crime> mCrimes;
