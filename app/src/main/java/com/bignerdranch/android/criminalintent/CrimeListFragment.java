@@ -70,8 +70,9 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
         public void onClick(View v) {
             //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
             //Intent intent = new Intent(getActivity(), CrimeActivity.class);
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(intent);
+            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());    // Decommissioning CrimeActivity to start
+            startActivity(intent);                                                          // CrimePagerActivity
         }
     }
 
