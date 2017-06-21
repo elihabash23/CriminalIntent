@@ -2,6 +2,7 @@ package com.bignerdranch.android.criminalintent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;     // Support Library Version of the Fragment Class
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class CrimeFragment extends Fragment {       // a controller of my MVC
 
     private static final String ARG_CRIME_ID = "crime_id";
+    private static final String DIALOG_DATE = "DialogDate";
 
     private Crime mCrime;
     private EditText mTitleField;
@@ -73,7 +75,15 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
 
         mDateButton = (Button) v.findViewById(R.id.crime_date); // Reference for the button in the fragment_crime.xml file
         mDateButton.setText(mCrime.getDate().toString());
-        mDateButton.setEnabled(false);
+        //mDateButton.setEnabled(false);
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment();
+                dialog.show(manager, DIALOG_DATE);
+            }
+        });
 
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved); // Reference for the checkbox in the fragment_crime.xml file
         mSolvedCheckBox.setChecked(mCrime.isSolved());
