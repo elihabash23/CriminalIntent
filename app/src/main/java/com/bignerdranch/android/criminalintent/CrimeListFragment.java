@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -25,6 +27,12 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {   // Let the FragmentManager know that
+        super.onCreate(savedInstanceState);     // CrimeListFragment needs to receive menu callbacks
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,6 +118,12 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
     public void onResume() {    // Triggers a call to updateUI() to reload the list if any changes to
         super.onResume();       // the details of a crime have been made
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {     // Inflating the menu
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime_list, menu);
     }
 
     private void updateUI() {
