@@ -23,13 +23,11 @@ public class CrimeLab {     // The model of my MVC
     }
 
     private CrimeLab(Context context) {     // constructor for singleton
-        mCrimes = new ArrayList<>();
-        for(int i = 0; i < 100; i++) {
-            Crime crime = new Crime();
-            crime.setTitle("Crime #" + i);
-            crime.setSolved(i % 2 == 0);    // Every other one
-            mCrimes.add(crime);
-        }
+        mCrimes = new ArrayList<>();    // Goodbye random crimes!
+    }
+
+    public void addCrime(Crime c) {
+        mCrimes.add(c);
     }
 
     public List<Crime> getCrimes() {
