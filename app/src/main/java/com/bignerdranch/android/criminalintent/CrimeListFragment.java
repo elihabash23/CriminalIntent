@@ -4,6 +4,8 @@ package com.bignerdranch.android.criminalintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,8 +28,11 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {       // a controller of my MVC
 
+    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private boolean mSubtitleVisible;       // Keeping subtitle visibility state
 
     @Override
     public void onCreate(Bundle savedInstanceState) {   // Let the FragmentManager know that
@@ -41,6 +46,10 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
 
         mCrimeRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recylcer_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if(savedInstanceState != null) {
+            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);   // Saving subtitle visibility
+        }
 
         updateUI();
 
@@ -122,9 +131,24 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {      // Save the mSubtitleVisible instance variable across rotation
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {     // Inflating the menu
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list, menu);
+
+        // Trigger a reaction of the action items when the user presses
+        // on the Show Subtitle action item.
+        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
+        if(mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        } else {
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
     }
 
     @Override
@@ -136,9 +160,26 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
                 Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
                 startActivity(intent);
                 return true;
+            case R.id.menu_item_show_subtitle:
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();      // Declare that the options menu has changed so it should be recreated
+                updateSubtitle();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void updateSubtitle() {     // Setting the toolbar's subtitle
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        String subtitle = getString(R.string.subtitle_format, crimeLab.getCrimes().size());
+
+        if(!mSubtitleVisible) {     // Showing or hiding the subtitle
+            subtitle = null;
+        }
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
     private void updateUI() {
@@ -151,6 +192,8 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
         } else {
             mAdapter.notifyDataSetChanged();    // Try implementing with notifyItemChanged(int) for better efficiency
         }
+
+        updateSubtitle();   // Update the subtitle when the user presses the back button instead
     }
 
 }
