@@ -122,6 +122,10 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
         public int getItemCount() {
             return mCrimes.size();
         }
+
+        public void setCrimes(List<Crime> crimes) {
+            mCrimes = crimes;
+        }
     }
 
     @Override
@@ -190,6 +194,7 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
+            mAdapter.setCrimes(crimes);
             mAdapter.notifyDataSetChanged();    // Try implementing with notifyItemChanged(int) for better efficiency
         }
 
