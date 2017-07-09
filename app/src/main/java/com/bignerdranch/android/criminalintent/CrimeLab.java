@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 import com.bignerdranch.android.criminalintent.database.CrimeBaseHelper;
 import com.bignerdranch.android.criminalintent.database.CrimeCursorWrapper;
 import com.bignerdranch.android.criminalintent.database.CrimeDbSchema;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +26,7 @@ public class CrimeLab {     // The model of my MVC
 
     //private List<Crime> mCrimes;
     private final SQLiteDatabase mDatabase;
+    private Context mContext;   // Used for finding photo file location
 
     public static CrimeLab get(Context context) {
         if(sCrimeLab == null) {
@@ -35,6 +38,7 @@ public class CrimeLab {     // The model of my MVC
     private CrimeLab(Context context) {     // constructor for singleton
         mDatabase = new CrimeBaseHelper(context).getWritableDatabase();     // Opening a SQLiteDatabase
        // mCrimes = new ArrayList<>();    // Goodbye random crimes!
+        mContext = context.getApplicationContext();
     }
 
     public void addCrime(Crime c) {
@@ -86,6 +90,16 @@ public class CrimeLab {     // The model of my MVC
         } finally {
             cursor.close();
         }
+    }
+
+    public File getPhotoFile(Crime crime) {
+        File externalFilesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if (externalFilesDir == null) {
+            return null;
+        }
+
+        return new File(externalFilesDir, crime.getPhotoFileName());
     }
 
     public void updateCrime(Crime crime) {              // Updating a crime

@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -38,6 +39,7 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
     private static final int REQUEST_CONTACT = 1;   // Request code for getting a contact a user has chosen
 
     private Crime mCrime;
+    private File mPhotoFile;        // Used for grabbing photo file location
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
@@ -64,6 +66,7 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
         //UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
     }
 
     @Override
