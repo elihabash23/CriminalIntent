@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;     // Support Library Version of the Fragment Class
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -37,6 +38,7 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
 
     private static final int REQUEST_DATE = 0;      // Request code for the target Fragment CrimeFragment
     private static final int REQUEST_CONTACT = 1;   // Request code for getting a contact a user has chosen
+    private static final int REQUEST_PHOTO = 2;     // Request code for firing the camera intent
 
     private Crime mCrime;
     private File mPhotoFile;        // Used for grabbing photo file location
@@ -159,6 +161,27 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
         }
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
+
+        //Firing up the camera intent
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+
+                PackageManager packageManager = getActivity().getPackageManager();
+
+                if(i.resolveActivity(packageManager) != null) {
+                    startActivityForResult(i, REQUEST_PHOTO);
+                }
+            }
+        });
+
+        if (mPhotoFile == null) {
+            mPhotoButton.setEnabled(false);
+        }
+
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
 
         return v;
