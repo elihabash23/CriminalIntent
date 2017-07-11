@@ -15,6 +15,7 @@ public class CrimeListActivity extends SingleFragmentActivity {     // A control
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_twopane;
+        //return R.layout.activity_twopane;
+        return R.layout.activity_masterdetail;
     }
 }
