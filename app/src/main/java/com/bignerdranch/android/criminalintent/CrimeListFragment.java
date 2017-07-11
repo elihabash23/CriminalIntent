@@ -1,6 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
 //import android.support.v4.app.Fragment;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,22 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private Callbacks mCallbacks;
     private boolean mSubtitleVisible;       // Keeping subtitle visibility state
+
+    /**
+     * Required interface for hosting activities
+     */
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+
+    @SuppressWarnings("depreciation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {   // Let the FragmentManager know that
@@ -138,6 +154,12 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
     public void onSaveInstanceState(Bundle outState) {      // Save the mSubtitleVisible instance variable across rotation
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     @Override
