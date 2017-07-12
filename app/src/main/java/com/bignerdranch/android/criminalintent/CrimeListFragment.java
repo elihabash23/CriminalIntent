@@ -105,8 +105,9 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
             //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
             //Intent intent = new Intent(getActivity(), CrimeActivity.class);
             //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());    // Decommissioning CrimeActivity to start
-            startActivity(intent);                                                          // CrimePagerActivity
+//            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());    // Decommissioning CrimeActivity to start
+//            startActivity(intent);                                                          // CrimePagerActivity
+            mCallbacks.onCrimeSelected(mCrime);
         }
     }
 
@@ -183,8 +184,10 @@ public class CrimeListFragment extends Fragment {       // a controller of my MV
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
-                startActivity(intent);
+//                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
+//                startActivity(intent);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
