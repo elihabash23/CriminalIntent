@@ -50,6 +50,14 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private Button mReportButton;
+    private Callbacks mCallbacks;
+
+    /**
+     * Required interface for hosting activities
+     */
+    public interface Callbacks {
+        void onCrimeUpdated(Crime crime);
+    }
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -58,6 +66,13 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @SuppressWarnings("depreciation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
     }
 
     @Override
@@ -77,6 +92,12 @@ public class CrimeFragment extends Fragment {       // a controller of my MVC
         super.onPause();
 
         CrimeLab.get(getActivity()).updateCrime(mCrime);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     @Override
